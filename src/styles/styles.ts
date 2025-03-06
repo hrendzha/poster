@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
 
-const SECTION_PADDINGS = 16;
+export const SECTION_PADDINGS = 16;
 
 const COLOR_PALETTE = {
   primary: "#FF6C00",
   secondary: "#1B4371",
   primaryBg: "#f6f6f6",
+  textPrimary: "#212121",
 };
 
 const sectionStyles = StyleSheet.create({
@@ -20,7 +21,7 @@ const sectionStyles = StyleSheet.create({
     fontFamily: "Roboto-Medium",
     fontSize: 30,
     fontWeight: "500",
-    color: "#212121",
+    color: COLOR_PALETTE.textPrimary,
     textAlign: "center",
   },
 });

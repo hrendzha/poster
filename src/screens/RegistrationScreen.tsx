@@ -15,19 +15,36 @@ import { TextInputBorderSquare } from "../components/TextInputBorderSquare/TextI
 import { KeyboardAvoidingViewCustom } from "../components/KeyboardAvoidingViewCustom/KeyboardAvoidingViewCustom";
 import { CustomButton } from "../components/CustomButton/CustomButton";
 import { AvatarUploader } from "../components/AvatarUploader/AvatarUploader";
+import { RootStackNavigationProp } from "../types/navigation";
+import { useAuth } from "../context/AuthContext";
 
-const RegistrationScreen = () => {
+interface IProps {
+  navigation: RootStackNavigationProp<"RegistrationScreen">;
+}
+
+const RegistrationScreen = ({ navigation }: IProps) => {
   const [loginName, setLoginName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { login } = useAuth();
 
   const onLoginNameChange = (text: string) => setLoginName(text);
   const onEmailChange = (text: string) => setEmail(text);
   const onPasswordChange = (text: string) => setPassword(text);
 
+  const onRegisterPress = () => {
+    login({
+      email,
+      name: loginName,
+    });
+  };
+
+  const navigateToLoginScreen = () => navigation.replace("LoginScreen");
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ImageBackground style={styles.bgImg} source={require("../../assets/images/main-bg.png")}>
+      <ImageBackground style={styles.bgImg} source={require("../assets/images/main-bg.png")}>
         <KeyboardAvoidingViewCustom>
           <ScrollView keyboardShouldPersistTaps="handled" style={{ overflow: "visible" }}>
             <View
@@ -55,15 +72,9 @@ const RegistrationScreen = () => {
                 />
               </View>
 
-              <CustomButton
-                title="Зареєструватися"
-                style={styles.btn}
-                onPress={() => {
-                  Alert.alert(`loginName: ${loginName}; email: ${email}; password: ${password}`);
-                }}
-              />
+              <CustomButton title="Зареєструватися" style={styles.btn} onPress={onRegisterPress} />
 
-              <TouchableOpacity>
+              <TouchableOpacity onPress={navigateToLoginScreen}>
                 <Text style={styles.additionalText}>Вже є акаунт? Увійти</Text>
               </TouchableOpacity>
             </View>

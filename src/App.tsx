@@ -1,10 +1,13 @@
 import { useCallback } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, LogBox } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { RegistrationScreen } from "./src/screens/RegistrationScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { AuthProvider } from "./context/AuthContext";
+import { MainNavigator } from "./components/MainNavigator/MainNavigator";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -26,13 +29,19 @@ export default function App() {
   }
 
   return (
-    <ActionSheetProvider>
-      <View style={styles.container} onLayout={onLayoutRootView}>
-        <RegistrationScreen />
+    <AuthProvider>
+      <ActionSheetProvider>
+        <SafeAreaProvider>
+          <View style={styles.container} onLayout={onLayoutRootView}>
+            <NavigationContainer>
+              <MainNavigator />
+            </NavigationContainer>
 
-        <StatusBar style="auto" />
-      </View>
-    </ActionSheetProvider>
+            <StatusBar style="auto" />
+          </View>
+        </SafeAreaProvider>
+      </ActionSheetProvider>
+    </AuthProvider>
   );
 }
 
